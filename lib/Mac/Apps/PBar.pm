@@ -1,11 +1,18 @@
-#!perl
-
+#!perl -w
 package Mac::Apps::PBar;
-
-$version = 'v1.2 1997/10/13 16:50:48';
-
+require 5.00201;
+use vars qw($VERSION @ISA @EXPORT $be $evt);
+use strict;
+no strict 'refs';
+use Exporter;
+use Carp;
 use Mac::AppleEvents;
 use Mac::Apps::Launch;
+@ISA = qw(Exporter);
+@EXPORT = ();
+$VERSION = sprintf("%d.%02d", q$Revision: 1.30 $ =~ /(\d+)\.(\d+)/);
+$be = '';
+
 
 sub new {
 	 my $pkg = shift;
@@ -83,7 +90,25 @@ __END__
 
 =head1 NAME
 
-B<PBar.pm> Ñ  An AppleEvent Module for C<Progress Bar 1.0.1>
+Mac::Apps::PBar - An AppleEvent Module for Progress Bar 1.0.1
+
+=head1 SYNOPSIS
+
+	use Mac::Apps::PBar;
+	$bar = Mac::Apps::PBar->new('FTP DOWNLOAD', '100, 50');
+	$bar->data({
+		Cap1=>'file: BigFile.tar.gz',
+		Cap2=>'size: 1,230K',
+		MinV=>'0',
+		MaxV=>'1230',
+	});
+	for(0..10) {
+		$n = $_*123;
+		$bar->data(Valu, $n);
+		sleep(1);
+	}
+	sleep(5);
+	$bar->close_window;
 
 =head1 DESCRIPTION
 
@@ -100,56 +125,21 @@ Progress Bar 1.0.1 is found by a search for the creator type C<PBar> and launche
 automatically. To minimise the time taken for the search, C<Progress Bar 1.0.1> should
 be kept in the same volume as C<PBar.pm>. 
 
-=head1 SYNOPSIS
-
-	use Mac::AppleEvents
-	use Mac::Processes
-	use Mac::MoreFiles
-	
-Install C<"PBar.pm"> in a folder named C<"Apps"> in the
-C<"Mac"> folder in MacPerl's library path.
-
-=head1 TEST PROGRAM
-
-The following script (ideally saved as a MacPerl droplet) shows 10 increments
-of the bar at 1 second intervals. The window is closed when the bar is full after
-a final five second pause.
-
-	#!perl
-	# Droplet "Run_PBar"
-    
-	use Mac::Apps::PBar;
-
-	$bar = Mac::Apps::PBar->new('FTP DOWNLOAD', '100, 50');
-	$bar->data({
-		Cap1=>'file: BigFile.tar.gz',
-		Cap2=>'size: 1,230K',
-		MinV=>'0',
-		MaxV=>'1230',
-	});
-	for(0..10) {
-		$n = $_*123;
-		$bar->data(Valu, $n);
-		sleep(1);
-	}
-	sleep(5);
-	$bar->close_window;
-
 =head2 CREATING A NEW PROGRESS BAR
 
 Progress Bar 1.0.1 is launced and a new Progress bar created by:
 
 	 $bar = Mac::Apps::PBar->new('NAME', 'xpos, ypos');
-	 
+
 where the arguments to the C<new> constructor have the following meanings:
 
 =over 4
 
-=item B<First argument:>
+=item First argument
 
 is a string for the title bar of the Progress Bar window.
 
-=item B<Second argument:>
+=item Second argument
 
 is a string C<'xpos, ypos'> defining the position of the top left-hand corner 
 of the window in pixels. The pair of numbers and the comma should be enclosed
@@ -214,13 +204,13 @@ where speed is of the essence, just the bar value C<Valu> should be changed.
 
 =back
 
-=head2 REFERENCES
+=head2 SEE ALSO
 
 The following documents, which are relevant to AEBuild, may be of interest:
 
 =over 4
 
-=item B<AEGizmos_1.4.1>
+=item AEGizmos_1.4.1
 
 Written by Jens Peter Alfke this gives a description of AEBuild on which the
 MacPerl AEBuildAppleEvent is based. Available from:
@@ -229,7 +219,7 @@ MacPerl AEBuildAppleEvent is based. Available from:
 	devworld/Tool_Chest/Interapplication_Communication/
 	AE_Tools_/AEGizmos_1.4.1
 
-=item B<aete.convert>
+=item aete.convert
 
 A fascinating MacPerl script by David C. Schooley which extracts the aete
 resources from scriptable applications. It is an invaluable aid for the
@@ -239,7 +229,7 @@ construction ofAEBuild events. Available from:
 	pub/mac/Widgets/
 	aete.converter_1.1.sea.hqx
 
-=item B<AE_Tracker>
+=item AE_Tracker
 
 This a small control panel which allows some or all AE Events to be tracked at
 various selectable levels of information. It is relatively difficult to decipher
@@ -249,7 +239,7 @@ the output but AE_Tracker can be helpful. Available from:
 	pub/amug/bbs-in-a-box/files/system7/a/
 	aetracker2.0.sit.hqx
 
-=item B<Inside Macintosh>
+=item Inside Macintosh
 
 Chapter 6 "Resolving and Creating Object Specifier Records" . The summary can
 be obtained from:
@@ -258,7 +248,7 @@ be obtained from:
 	dev/techsupport/insidemac/IAC/
 	IAC-287.html
 
-=item B<Progress Bar 1.0.1>
+=item Progress Bar 1.0.1
 
 Obtainable from Info-Mac archives as:
 
@@ -266,32 +256,33 @@ Obtainable from Info-Mac archives as:
 
 =back
 
-References are valid as at May 1997.
-
-=head1 COPYRIGHT
-
-Copyright (c) 1997 by Chris Nandor and Alan Fry. All rights reserved. 
-
-This program is free software; you can redistribute it and/or modify it under
-the same terms as Perl itself.
+References are valid as of May 1997.
 
 =head1 AUTHORS
 
-B<Chris Nandor> C<E<lt>pudge@pobox.comE<gt>> is responsible for the AEBuild
-techniques, and particularly for evolving the AE object specifications. He wrote
-the first working script on which this module is largely based.
+Chris Nandor F<E<lt>pudge@pobox.comE<gt>>
+http://pudge.net/
 
-B<Alan Fry> C<E<lt>ajf@afco.demon.co.ukE<gt>> wrote the module and this
-documentation.
+Alan Fry F<E<lt>ajf@afco.demon.co.ukE<gt>>
+
+Copyright (c) 1998 Chris Nandor and Alan Fry.  All rights reserved.  This program is free software; you can redistribute it and/or modify it under the same terms as Perl itself.  Please see the Perl Artistic License.
 
 =head1 HISTORY
 
-B<Version 1.2> 13 October 1997
+=over 4
+
+=item Version 1.3, 3 January 1998
+
+General cleanup.  Now requires MacPerl 5.1.4r4.
+
+=item Version 1.2, 13 October 1997
 
 Switched to Mac::Apps::Launch package.
 
-B<Version 1.1> 16 September 1997
+=item Version 1.1, 16 September 1997
 
 Put in the hashref methods to change multiple data in one call.
+
+=back
 
 =cut
