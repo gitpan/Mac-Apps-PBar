@@ -1,6 +1,8 @@
-June 18, 1997
+September 16, 1997
 
-This is PBar.pm 1.1, a Perl interface to Progress Bar, an Apple Event-capable progress bar utility.  PBar.pm was written by Alan Fry and Chris Nandor.
+This is PBar.pm 1.1, a Perl interface to Progress Bar, an Apple 
+Event-capable progress bar utility.  PBar.pm was written by Alan Fry 
+and Chris Nandor.
 
 REQUIREMENTS:
 *MacPerl 5.1.1+ (5.1.3 recommended) is REQUIRED for fixed
@@ -24,6 +26,11 @@ similar program to get at the archive.
 I think that is about it.  Let me know how things work out, and any
 bugs, typos, suggestions, or anything else.
 
+The only main change in this version is the addition of passing a hashref
+(one parameter) instead of two parameters to the data() method.  You can
+in that way send all of your opening parameters at once rather than one
+at a time.
+
 --
-Chris Nandor                 pudge@pobox.com                 http://pudge.net/
-%PGPKey=('B76E72AD',[1024,'08 24 09 0B CE 73 CA 10  1F F7 7F 13 81 80 B6 B6'])
+Chris Nandor             pudge@pobox.com             http://pudge.net/
+%PGPKey=('B76E72AD',[1024,'0824 090B CE73 CA10  1FF7 7F13 8180 B6B6'])
