@@ -2,11 +2,10 @@
 
 package Mac::Apps::PBar;
 
-$version = 'v1.1 1997/09/16 12:59:48';
+$version = 'v1.2 1997/10/13 16:50:48';
 
 use Mac::AppleEvents;
-use Mac::Processes;
-use Mac::MoreFiles;
+use Mac::Apps::Launch;
 
 sub new {
 	 my $pkg = shift;
@@ -31,11 +30,7 @@ sub new {
 }
 
 sub launch_pbar {
-	 my %Launch;
-	 tie %Launch, LaunchParam;
-	 $Launch{launchControlFlags} = launchContinue + launchNoFileFlags;
-	 $Launch{launchAppSpec} = $Application{PBar};
-	 LaunchApplication(\%Launch) or die $^E;
+	LaunchApps(['PBar'],1);
 }
 
 sub data {
@@ -291,6 +286,12 @@ documentation.
 
 =head1 HISTORY
 
+B<Version 1.2> 13 October 1997
+
+Switched to Mac::Apps::Launch package.
+
 B<Version 1.1> 16 September 1997
+
+Put in the hashref methods to change multiple data in one call.
 
 =cut

@@ -1,6 +1,6 @@
-September 16, 1997
+October 13, 1997
 
-This is PBar.pm 1.1, a Perl interface to Progress Bar, an Apple 
+This is PBar.pm 1.2, a Perl interface to Progress Bar, an Apple 
 Event-capable progress bar utility.  PBar.pm was written by Alan Fry 
 and Chris Nandor.
 
